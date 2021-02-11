@@ -9,21 +9,24 @@ from groupy.gconv.tensorflow_gconv.splitgconv2d import gconv2d_util, gconv2d
 
 from keras.layers import Convolution2D,Activation, BatchNormalization,MaxPooling2D, concatenate
 def InceptionModule(self, inputs, numFilters = 32, h_input=None, h_output=None):
-    
+    conf_group = self.conv_group
+    weight_decay=self.weight_decay
     if h_input is None:
-        h_input= self.conv_group
+        h_input= conf_group
     if h_output is None:
-        h_output= self.conv_group
+        h_output= conf_group
         
     down0 = GConv2D(f, (3, 3), padding='same',kernel_initializer = 'he_normal',h_input='Z2',h_output=conv_group,bias_initializer=Constant(0.0001), kernel_regularizer=l2(weight_decay))(inputs)
-    down0 = GBatchNorm(conv_group,trainable=self.trainable)(down0)
+    down0 = GBatchNorm(conv_group)(down0)
     
-    tower_0 = GConv2D(numFilters, (3, 3), padding='same',kernel_initializer = 'he_normal',h_input='Z2',h_output=conv_group,bias_initializer=Constant(0.0001), kernel_regularizer=l2(weight_decay))(inputs)
-    tower_0 = Convolution2D(numFilters, (1,1), padding='same', kernel_initializer = 'he_normal')(inputs)
-    tower_0 = BatchNormalization()(tower_0)
+    tower_0 = GConv2D(numFilters, (1, 1), padding='same',kernel_initializer = 'he_normal',h_input=h_input,h_output=conv_group,bias_initializer=Constant(0.0001), kernel_regularizer=l2(weight_decay))(inputs)
+#     tower_0 = Convolution2D(numFilters, (1,1), padding='same', kernel_initializer = 'he_normal')(inputs)
+    tower_0 = GBatchNorm(conv_group)(tower_0)
+#     tower_0 = BatchNormalization()(tower_0)
     tower_0 = Activation("relu")(tower_0)
     
-    tower_1 = Convolution2D(numFilters, (1,1), padding='same',kernel_initializer = 'he_normal')(inputs)
+    tower_1 = GConv2D(numFilters, (1, 1), padding='same',kernel_initializer = 'he_normal',h_input=h_input,h_output=conv_group,bias_initializer=Constant(0.0001), kernel_regularizer=l2(weight_decay))(inputs)
+#     tower_1 = Convolution2D(numFilters, (1,1), padding='same',kernel_initializer = 'he_normal')(inputs)
     tower_1 = BatchNormalization()(tower_1)
     tower_1 = Activation("relu")(tower_1)
     tower_1 = Convolution2D(numFilters, (3,3), padding='same',kernel_initializer = 'he_normal')(tower_1)
