@@ -3,6 +3,9 @@ Created on Aug 4, 2019
 
 @author: daniel
 '''
+from keras_gcnn.layers import GConv2D, GBatchNorm
+from keras_gcnn.layers.pooling import GroupPool
+from groupy.gconv.tensorflow_gconv.splitgconv2d import gconv2d_util, gconv2d
 
 from keras.layers import Convolution2D,Activation, BatchNormalization,MaxPooling2D, concatenate
 def InceptionModule(inputs, numFilters = 32):
