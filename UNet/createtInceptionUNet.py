@@ -2,6 +2,8 @@
 Created on Oct 30, 2018
 
 @author: daniel
+
+Modified for GConv by Kelvin Wong (2021)
 '''
 
 from keras.models import Model, Input
