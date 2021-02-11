@@ -15,7 +15,7 @@ from keras_gcnn.layers import GConv2D, GBatchNorm
 from keras_gcnn.layers.pooling import GroupPool
 from groupy.gconv.tensorflow_gconv.splitgconv2d import gconv2d_util, gconv2d
 
-def createInceptionUNet(input_shape = (256,256,1), 
+def createInceptionUNet(self, input_shape = (256,256,1), 
                         n_labels = 1, 
                         numFilters = 4, 
                         output_mode="softmax"):
