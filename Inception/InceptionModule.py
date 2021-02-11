@@ -2,12 +2,14 @@
 Created on Aug 4, 2019
 
 @author: daniel
+Modified for GConv by Kelvin Wong (2021)
 '''
+from keras.layers import Activation, MaxPooling2D, concatenate
+
 from keras_gcnn.layers import GConv2D, GBatchNorm
 from keras_gcnn.layers.pooling import GroupPool
 from groupy.gconv.tensorflow_gconv.splitgconv2d import gconv2d_util, gconv2d
 
-from keras.layers import Activation, MaxPooling2D, concatenate
 def InceptionModule(self, inputs, numFilters = 32, h_input=None, h_output=None):
     conv_group = self.conv_group
     weight_decay=self.weight_decay
