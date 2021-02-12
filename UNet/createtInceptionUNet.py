@@ -9,9 +9,9 @@ from keras.layers import Convolution2D, Activation, BatchNormalization,MaxPoolin
 from keras.layers.convolutional import UpSampling2D
 from Inception.InceptionModule import InceptionModule
     
-def createInceptionUNet(input_shape = (128,128,1), 
+def createInceptionUNet(input_shape = (256,256,3), 
                         n_labels = 1, 
-                        numFilters = 32, 
+                        numFilters = 4, 
                         output_mode="softmax"):
     
     inputs = Input(input_shape)
@@ -46,7 +46,7 @@ def createInceptionUNet(input_shape = (128,128,1),
     up9 = InceptionModule(up9, numFilters)
     merge9 = concatenate([conv1,up9],axis=3)
     
-    conv10 = Convolution2D(n_labels, (1,1),  padding = 'same', kernel_initializer = 'he_normal')(merge9)
+    conv10 = GConv2D(n_labels, (1,1),  padding = 'same', kernel_initializer = 'he_normal')(merge9)
     conv10 = BatchNormalization()(conv10)
     outputs = Activation(output_mode)(conv10)
     
