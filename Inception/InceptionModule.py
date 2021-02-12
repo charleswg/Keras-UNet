@@ -33,7 +33,7 @@ def InceptionModule(inputs, numFilters = 32, h_input=None, h_output=None):
     tower_2 = Activation("relu")(tower_2)
     
     tower_3 = MaxPooling2D((3,3), strides=(1,1), padding='same')(inputs)
-    tower_3 = GConv2D(numFilters, (1, 1), padding='same',kernel_initializer = 'he_normal',h_input=h_input,h_output=conv_group,bias_initializer=Constant(0.0001), kernel_regularizer=l2(weight_decay))(tower_3)
+    tower_3 = GConv2D(numFilters, (1, 1), padding='same',kernel_initializer = 'he_normal',h_input=h_input,h_output=h_output,bias_initializer=Constant(0.0001), kernel_regularizer=l2(weight_decay))(tower_3)
     tower_3 = GBatchNorm(h_output)(tower_3)
     tower_3 = Activation("relu")(tower_3)
     
